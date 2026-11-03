@@ -1,2 +1,2 @@
+# Additional application dependencies
 huggingface-hub
-hf-transfer

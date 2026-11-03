@@ -1,4 +1,4 @@
-FROM vllm/vllm-openai-cpu:v0.32.0
+FROM vllm/vllm-openai-cpu:v0.32.0.0@sha256:ffaba3989b9b96d95a576143c872a4110ce9800f5199b6a36eb27bdff1cbbe05
 USER root
 
 RUN groupadd --gid 2000 vllm \
