@@ -1,0 +1,7 @@
+.git
+.gitignore
+k8s/
+scripts/
+__pycache__/
+*.pyc
+README.md
