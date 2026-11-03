@@ -1,7 +1,10 @@
 .git
 .gitignore
-k8s/
-scripts/
-__pycache__/
+.venv
+venv
+__pycache__
 *.pyc
-README.md
+.pytest_cache
+.env
+.env.*
+*.log

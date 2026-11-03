@@ -4,5 +4,5 @@ metadata:
   name: vllm-config
   namespace: vllm
 data:
-  MODEL_ID: "Qwen/Qwen2.5-7B-Instruct"
-  HF_HOME: "/root/.cache/huggingface"
+  MODEL_ID: "Qwen/Qwen2.5-1.5B-Instruct"
+  HF_HOME: "/models/huggingface"
