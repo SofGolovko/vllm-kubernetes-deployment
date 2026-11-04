@@ -4,10 +4,15 @@
 ## Технологический стек
 
 Kubernetes: Minikube.
+
 Контейнеризация: Docker.
+
 Inference engine: vLLM 0.32.0.
+
 Режим вычислений: CPU-only.
+
 Языковая модель: Qwen/Qwen2.5-1.5B-Instruct.
+
 Python: 3.12.15.
 
 ## Docker-образ
@@ -43,6 +48,7 @@ minikube start --driver=docker
 Загрузка собранных Docker-образов в Minikube:
 
 minikube image load vllm-custom:0.32.0
+
 minikube image load model-downloader:0.1.0
 
 Применение манифестов Kubernetes:
@@ -52,7 +58,9 @@ kubectl apply -k k8s/
 Проверка состояния приложений:
 
 kubectl get pods -n vllm
+
 kubectl get services -n vllm
+
 kubectl get pvc -n vllm
 
 Просмотр логов:
@@ -101,4 +109,5 @@ $body = @{
      -Body $body
  
  $result.choices[0].message.content
+
 Для доступа к API необходимо передавать Bearer-токен, заданный в Secret.
