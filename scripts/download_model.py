@@ -24,7 +24,6 @@ def is_model_downloaded() -> bool:
     )
     return DOWNLOAD_MARKER.is_file() and has_config and has_weights
 
-
 def download_model() -> None:
     if is_model_downloaded():
         print(f"Model already exists: {MODEL_DIR}")
