@@ -21,11 +21,9 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
       initContainers:
         - name: download-model
-          image: vllm-custom:0.32.0
+          image: model-downloader:0.1.0
           imagePullPolicy: IfNotPresent
-          command:
-            - python
-            - /app/scripts/download_model.py
+
           env:
             - name: MODEL_ID
               valueFrom:
@@ -50,30 +48,63 @@ spec:
             - name: model-cache
               mountPath: /models/huggingface
 
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 2000
+            runAsGroup: 2000
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+
       containers:
         - name: vllm
           image: vllm-custom:0.32.0
           imagePullPolicy: IfNotPresent
           args:
-            - "--model"
-            - "/models/huggingface/Qwen2.5-1.5B-Instruct"
+            - "$(MODEL_PATH)"
             - "--dtype"
-            - "float32"
+            - "$(DTYPE)"
             - "--max-model-len"
-            - "2048"
+            - "$(MAX_MODEL_LEN)"
             - "--api-key"
             - "$(VLLM_API_KEY)"
             - "--middleware"
             - "app.logging_config.SafeAccessLoggingMiddleware"
-            - "--disable-log-requests"
             - "--disable-uvicorn-access-log"
-          
+            - "--gpu-memory-utilization"
+            - "$(GPU_MEMORY_UTILIZATION)"
+
           env:
             - name: VLLM_API_KEY
               valueFrom:
                 secretKeyRef:
                   name: vllm-secret
                   key: VLLM_API_KEY
+
+            - name: MODEL_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: vllm-config
+                  key: MODEL_PATH
+
+            - name: DTYPE
+              valueFrom:
+                configMapKeyRef:
+                  name: vllm-config
+                  key: DTYPE
+
+            - name: MAX_MODEL_LEN
+              valueFrom:
+                configMapKeyRef:
+                  name: vllm-config
+                  key: MAX_MODEL_LEN
+
+            - name: GPU_MEMORY_UTILIZATION
+              valueFrom:
+                configMapKeyRef:
+                  name: vllm-config
+                  key: GPU_MEMORY_UTILIZATION
 
             - name: HF_HOME
               valueFrom:
